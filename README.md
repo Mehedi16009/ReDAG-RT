@@ -1,6 +1,4 @@
-# ReDAG$`^{\mathrm{\textbf{RT}}}`$: A Rate-Priority Executor for Multi-DAG Real-Time Execution in ROS 2
-
-# ReDAG-RT: Global Rate-Priority Scheduling for Real-Time Multi-DAG Execution in ROS 2
+# ReDAG$`^{\mathrm{\textbf{RT}}}`$: Global Rate-Priority Scheduling for Real-Time Multi-DAG Execution in ROS 2
 
 > **Official Research Artifact**  
 > Submitted to *ACM Transactions on Cyber-Physical Systems (TCPS)* — Under Review  

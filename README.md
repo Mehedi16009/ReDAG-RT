@@ -16,50 +16,17 @@
 
 ## Overview
 
-Modern robotic systems routinely deploy multiple concurrent
-computation pipelines — spanning perception, localization,
-planning, and control — within a shared middleware runtime.
-In ROS 2, these pipelines are naturally structured as
-directed acyclic graphs (DAGs) of callbacks, all dispatched
-by a unified executor. The default `SingleThreadedExecutor`
-and `MultiThreadedExecutor`, however, rely on best-effort
-FIFO dispatch without enforcing any rate-based priority
-relations across independent DAG pipelines. This fundamental
-architectural gap induces cross-DAG priority inversion —
-a structural condition in which low-frequency callbacks
-preempt high-frequency control-critical callbacks solely
-by virtue of earlier queue arrival — producing uncontrolled
-callback contention, unbounded blocking terms, and deadline
-instability under concurrent multi-DAG workloads. Under
-moderate to high processor utilization, these effects
-amplify jitter and drive deadline miss rates exceeding
-70%, rendering default ROS 2 execution semantics
-incompatible with the timing guarantees required by
-safety-critical cyber-physical systems.
+Modern robotic systems run multiple computation pipelines at once: perception, localization, planning, and control, all inside a shared middleware runtime. In ROS 2, each pipeline forms a directed acyclic graph (DAG) of callbacks, and a single executor dispatches all of them.
 
-This repository presents **ReDAG-RT**, a user-space global
-scheduling framework that restores deterministic multi-DAG
-execution within unmodified ROS 2. ReDAG-RT introduces a
-Rate-Priority (RP)-driven global ready-queue architecture
-that orders all callbacks system-wide by activation rate,
-enforces per-DAG concurrency bounds via configurable
-`max_active` parameters, and eliminates cross-graph
-priority inversion — without modifying the ROS 2 API,
-the executor interface, or the Linux kernel scheduler.
-The framework formalizes a multi-DAG task model
-$\mathcal{G} = \{G_k = (V_k, E_k)\}$, derives worst-case
-interference bounds $I_i = \sum_{\tau_j \in hp(i)} C_j$,
-and establishes response-time recurrences and schedulability
-conditions grounded in classical Rate-Monotonic theory.
+The problem is that the default `SingleThreadedExecutor` and `MultiThreadedExecutor` use plain FIFO dispatch. They do not enforce any rate-based priority across independent DAGs. This causes cross-DAG priority inversion, where low-frequency callbacks block high-frequency, control-critical ones simply because they arrived in the queue first. The result is uncontrolled contention, unbounded blocking, and unstable deadlines once multiple DAGs run concurrently. At moderate to high utilization, this pushes deadline miss rates past 70%, which makes default ROS 2 execution unsuitable for safety-critical cyber-physical systems.
 
-All experimental configurations, raw runtime traces,
-analysis scripts, and high-resolution figures reported
-in the manuscript are preserved in this repository to
-support complete reproducibility. The artifact is
-validated under mixed-period, mixed-criticality
-synthetic workloads in a containerized ROS 2 Humble
-environment, and all results are directly reconstructible
-from the automation pipeline included in `/scripts`.
+This repository contains **ReDAG-RT**, a user-space global scheduling framework built on top of unmodified ROS 2. It introduces a Rate-Priority (RP) global ready queue that orders every callback in the system by activation rate, enforces per-DAG concurrency limits through configurable `max_active` parameters, and removes cross-graph priority inversion. None of this requires changes to the ROS 2 API, the executor interface, or the Linux kernel scheduler.
+
+The framework also formalizes a multi-DAG task model $\mathcal{G} = \{G_k = (V_k, E_k)\}$, derives worst-case interference bounds $I_i = \sum_{\tau_j \in hp(i)} C_j$, and builds response-time recurrences and schedulability conditions on classical Rate-Monotonic theory.
+
+All experimental configurations, raw runtime traces, analysis scripts, and figures from the manuscript are included here for full reproducibility. The framework is validated under mixed-period, mixed-criticality synthetic workloads in a containerized ROS 2 Humble environment, and every result can be reproduced directly through the automation pipeline in `/scripts`.
+
+
 
 ---
 
@@ -67,7 +34,7 @@ from the automation pipeline included in `/scripts`.
 
 <img width="800" height="600" alt="Screenshot 2026-06-24 at 4 57 27 PM" src="https://github.com/user-attachments/assets/0ddc41cc-696f-4818-8e0f-038d12e72f6d" />
 
-**Figure 1.** ReDAG-RT layered user-space scheduling architecture for periodic precedence-constrained DAG workloads. Multiple robotic pipelines modeled as $G_k = (V_k, E_k)$ release callback tasks periodically upon period expiration; a dependency-aware release stage validates both timing and intra-DAG precedence constraints before admitting ready tasks into a unified global Rate-Monotonic priority queue ordered by $\tau^* = \arg\min_{i \in \mathcal{R}} T_i$. The ReDAG-RT global executor performs fixed-priority preemptive arbitration across all concurrent DAGs, triggering preemption when a higher-priority task enters the ready set, and dispatches selected tasks directly to the unmodified Linux execution layer. An integrated Timing Monitor computes response time $R_i = f_i - r_i$, lateness $L_i = f_i - d_i$, and miss rate
+## **Figure 1.** ReDAG-RT layered user-space scheduling architecture for periodic precedence-constrained DAG workloads. Multiple robotic pipelines modeled as $G_k = (V_k, E_k)$ release callback tasks periodically upon period expiration; a dependency-aware release stage validates both timing and intra-DAG precedence constraints before admitting ready tasks into a unified global Rate-Monotonic priority queue ordered by $\tau^* = \arg\min_{i \in \mathcal{R}} T_i$. The ReDAG-RT global executor performs fixed-priority preemptive arbitration across all concurrent DAGs, triggering preemption when a higher-priority task enters the ready set, and dispatches selected tasks directly to the unmodified Linux execution layer. An integrated Timing Monitor computes response time $R_i = f_i - r_i$, lateness $L_i = f_i - d_i$, and miss rate
 $\mathrm{MR}_i$ online, closing the event-driven re-scheduling loop.
 ---
 

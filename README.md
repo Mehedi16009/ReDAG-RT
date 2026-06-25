@@ -630,8 +630,7 @@ Mawlana Bhashani Science and Technology University
 - **Email:** mehedi.hasan.ict@mbstu.ac.bd  
 - **arXiv:** [arXiv:2603.18238](https://arxiv.org/pdf/2603.18238)  
 - **GitHub:** [Mehedi16009](https://github.com/Mehedi16009)  
-- **Repository:**
-  [ros2-realtime-scheduling-framework](https://github.com/Mehedi16009/ros2-realtime-scheduling-framework)
+- **Repository:** [ReDAG-RT](https://github.com/Mehedi16009/ReDAG-RT)
 
 ---
 
@@ -643,13 +642,4 @@ Mawlana Bhashani Science and Technology University
 **arXiv:2603.18238 · Apache 2.0 · ROS 2 Humble**
 
 </div>
-
-## 12. Citation
-
-If referencing this artifact: <br>
-Md Mehedi Hasan <br>
-Email: [mehedi.hasan.ict@mbstu.ac.bd](mehedi.hasan.ict@mbtu.ac.bd) <br>
-ReDAG-RT: Global Rate-Priority Scheduling for Real-Time Multi-DAG Execution in ROS 2. <br>
-GitHub Research Artifact, 2026. <br>
-```https://github.com/Mehedi16009/ReDAG-RT```
 

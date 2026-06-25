@@ -10,7 +10,7 @@
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 ![Platform](https://img.shields.io/badge/platform-x86__64%20%7C%20ARM64-lightgrey)
 ![arXiv](https://img.shields.io/badge/arXiv-2603.18238-red)
-![GitHub Repo](https://img.shields.io/badge/GitHub-ReDAGRT--black)
+![GitHub Repo](https://img.shields.io/badge/GitHub-ReDAG-RT-rt--black)
 
 ---
 

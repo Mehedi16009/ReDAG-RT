@@ -320,10 +320,9 @@ experimental evaluation.
 ### Step 1 — Clone the Repository
 
 ```bash
-git clone https://github.com/Mehedi16009/\
-ros2-realtime-scheduling-framework.git
+git clone https://github.com/Mehedi16009/ReDAG-RT.git
 
-cd ros2-realtime-scheduling-framework
+cd ReDAG-RT
 ```
 
 ### Step 2 — Launch the ROS 2 Humble Container
@@ -598,7 +597,7 @@ using the following BibTeX entry:
                Mostafiz, Rafid and
                Paul, Biplob Kumar and
                Hossain, Md Abir and
-               Rahman, Ziaur},
+               Rahman, Ziaur and Ridoy, Mohammad Mehedy Hasan},
   title     = {{ReDAG-RT}: Global Rate-Priority
                Scheduling for Real-Time Multi-{DAG}
                Execution in {ROS}~2},
@@ -617,6 +616,8 @@ using the following BibTeX entry:
 
 This project is licensed under the
 **Apache License, Version 2.0**.
+
+
 ## Ethical Statement
 
 All performance measurements, runtime execution
@@ -677,7 +678,7 @@ Mawlana Bhashani Science and Technology University
 If referencing this artifact: <br>
 Md Mehedi Hasan <br>
 Email: [mehedi.hasan.ict@mbstu.ac.bd](mehedi.hasan.ict@mbtu.ac.bd) <br>
-ReDAG-RT: A Rate-Priority Executor for Multi-DAG Real-Time Execution in ROS 2. <br>
+ReDAG-RT: Global Rate-Priority Scheduling for Real-Time Multi-DAG Execution in ROS 2. <br>
 GitHub Research Artifact, 2026. <br>
-```https://github.com/Mehedi16009/ros2_multi_dag_rp_scheduler```
+```https://github.com/Mehedi16009/ReDAG-RT```
 
